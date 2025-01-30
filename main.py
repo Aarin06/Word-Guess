@@ -55,21 +55,21 @@ class Wordle:
         letters = [0]*26
 
         for char in self.solution:
-            letters[ord[char] - ord("a")] +=1
+            letters[ord(char) - ord("a")] +=1
         
 
         for i in range(len(word)):
             if self.solution[i] == word[i]:
-                if letters[ord[word[i]] - ord("a")] > 0:
+                if letters[ord(word[i]) - ord("a")] > 0:
                     tempHint[i] = "1"
-                    letters[ord[word[i]] - ord("a")] -= 1
+                    letters[ord(word[i]) - ord("a")] -= 1
                     
         
         for i in range(len(word)):
             if word[i] in self.solution:
-                if letters[ord[word[i]] - ord("a")] > 0:
+                if letters[ord(word[i]) - ord("a")] > 0:
                     tempHint[i] = "0"
-                    letters[ord[word[i]] - ord("a")] -= 1
+                    letters[ord(word[i]) - ord("a")] -= 1
         
         self.wordHint = tempHint
 
