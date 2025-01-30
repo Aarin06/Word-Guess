@@ -1,13 +1,15 @@
+import random
+
 class Dictionary:
 
     def __init__(self, words):
         self.words = set(words)
     
     def getRandomWord(self):
-        pass
+        return random.choice(list(self.words))
 
-    def isWordInDictionary(self):
-        pass
+    def isWordInDictionary(self, word):
+        return word in self.words
 
 
 class Wordle:
@@ -20,6 +22,8 @@ class Wordle:
 
     TRY_AGAIN = "Wrong guess!"
 
+    SHOW_HINT = "Hint: "
+
     GAME_OVER = "You're out of turns, game over!"
 
     INPUT_STRING = "Please enter your first guess: "
@@ -27,13 +31,51 @@ class Wordle:
     def __init__(self):
         self.turns = 0
         self.solution = self.dictionary.getRandomWord()
+        self.wordHint = []
 
     def guess(self, word):
-        pass
+        
+        if not self.dictionary.isWordInDictionary(word):
+            return False
+        
+        self.turns += 1
+        
+        if self.solution == word:
+            return True
+        else:
+            self.hint(word)
+            return False
+
+        
 
     def hint(self, word):
-        pass
+        
+        tempHint = ["-"]*len(self.solution)
 
+        letters = [0]*26
+
+        for char in self.solution:
+            letters[ord[char] - ord("a")] +=1
+        
+
+        for i in range(len(word)):
+            if self.solution[i] == word[i]:
+                if letters[ord[word[i]] - ord("a")] > 0:
+                    tempHint[i] = "1"
+                    letters[ord[word[i]] - ord("a")] -= 1
+                    
+        
+        for i in range(len(word)):
+            if word[i] in self.solution:
+                if letters[ord[word[i]] - ord("a")] > 0:
+                    tempHint[i] = "0"
+                    letters[ord[word[i]] - ord("a")] -= 1
+        
+        self.wordHint = tempHint
+
+        self.SHOW_HINT = f"Hint: {"".join(tempHint)}"
+
+        
 
 def main():
 
@@ -51,7 +93,10 @@ def main():
             break
         
         print(wordle.TRY_AGAIN)
-    
+        print(wordle.SHOW_HINT)
 
     if wordle.turns >= wordle.MAX_TURNS:
         print(wordle.GAME_OVER)
+
+if __name__ == "__main__":
+    main()
